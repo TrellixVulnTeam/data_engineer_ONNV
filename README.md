@@ -1,6 +1,6 @@
 # Data engineer project
 
-JDK is required to run Spark
+JDK 8 is required to run Spark
 Requirements are installed by running `pip install -r requirements.txt`
 
 Data extraction and preparation is done by running / modifying `extract_files.py`
