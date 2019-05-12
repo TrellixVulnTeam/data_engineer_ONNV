@@ -51,7 +51,7 @@ def export_proper_events():
             events.append(BrowserRecorderEventsRecorded(
                 uuid=str(uuid4()), test_case_id=test_case_id, browser=None,
                 device=None, starting_url=metadata['starting_url'],
-                event_type=event['type'], timestamp=created_at,
+                event_type=event['type'], timestamp=created_at, operating_system=None,
             ))
 
     _parse_user_agents(events, browser_metadata)
