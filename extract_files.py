@@ -72,7 +72,26 @@ def _parse_user_agents(events, browser_metadata):
 
 def extract_files(tarfile_path=TARFILE_PATH):
     with tarfile.open(tarfile_path) as datafile:
-        datafile.extractall()
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner=numeric_owner) 
+            
+        
+        safe_extract(datafile)
     for file_ in find_files('.gz'):
         with gzip.open(file_, 'rb') as infile:
             txt_file = file_.replace('.gz', '.txt')
